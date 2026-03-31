@@ -1,0 +1,124 @@
+class Node:
+    def __init__(self,x, next, prev):
+        self.val = x
+        self.next = next
+        self.prev = prev
+
+class MyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+    
+    def printList(self):
+        x = self.head
+        res = []
+        while x: 
+            res.append(x.val)
+            x = x.next
+        
+        print(res)
+        return None
+
+    def get(self, index: int) -> int:
+        # self.printList()
+        i = 0
+        x = self.head
+        while x and i < index:
+            x = x.next
+            
+            i += 1 
+        if x:  
+            return x.val
+        else:
+            return -1 
+
+    def addAtHead(self, val: int) -> None:
+        # self.printList()
+        newOne = Node(val,self.head,None)
+        if self.head:
+            self.head.prev = newOne
+        else:
+            self.tail = newOne
+        self.head = newOne
+        return None        
+
+    def addAtTail(self, val: int) -> None:
+        # self.printList()
+        newOne = Node(val, None, self.tail)
+        if self.tail:
+            self.tail.next = newOne
+        else:
+            self.head = newOne
+        self.tail = newOne
+        return None
+        
+
+    def addAtIndex(self, index: int, val: int) -> None:
+        if index == 0:
+            self.addAtHead(val)
+            return None
+
+        i = 0
+        x = self.head
+
+        while x and i < index:
+            x = x.next
+            i += 1
+        if not x and i == index:
+            self.addAtTail(val)
+            self.printList()
+            return None
+
+        if not x:
+            self.printList()
+            return None
+
+        newOne = Node(val, x, x.prev)
+        x.prev.next = newOne
+        x.prev = newOne
+        # self.printList()
+        return None
+
+    def deleteAtIndex(self, index: int) -> None:
+        # self.printList()
+        if not self.head: 
+            return None
+
+        i = 0 
+        x = self.head
+        while x and i < index:
+            x = x.next
+            i += 1
+
+        if not x:
+            return None
+        
+        if not x.next and x.prev :
+            # tail
+            x.prev.next = None
+            self.tail = x.prev            
+        elif x.next and not x.prev:
+            # head
+            x.next.prev = None
+            self.head = x.next
+        elif not x.next and not x.prev: 
+            # one element only
+            self.head = None
+            self.tail = None
+        else:
+            x.prev.next = x.next
+            x.next.prev = x.prev
+            
+        x.next = None
+        x.prev = None
+        del x
+        return None
+
+# Your MyLinkedList object will be instantiated and called as such:
+# obj = MyLinkedList()
+# param_1 = obj.get(index)
+# obj.addAtHead(val)
+# obj.addAtTail(val)
+# obj.addAtIndex(index,val)
+# obj.deleteAtIndex(index)
+    
