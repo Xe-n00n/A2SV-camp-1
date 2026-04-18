@@ -1,0 +1,22 @@
+import math
+class Solution:
+    def countGoodNumbers(self, n: int) -> int:
+        def Pow(x,n):
+            if n == 0: 
+                return 1
+
+            half = Pow(x, n//2)
+
+            if n % 2 == 0:
+                return half * half % (10**9 + 7)
+
+            else:
+                return half * half * x % (10**9 + 7)
+
+        if n == 1:
+            return 5
+
+        evens = math.ceil(n/2)
+        odds = n // 2
+        
+        return (Pow(5,evens) % (10**9+7) * Pow(4,odds)% (10**9+7)) % (10**9+7)
