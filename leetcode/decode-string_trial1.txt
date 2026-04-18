@@ -1,0 +1,32 @@
+class Solution:
+    def decodeString(self, s: str) -> str:
+        self.i = 0
+        
+        def solution(s):
+            result = ''
+            if not s:
+                return result
+            
+            pendingdigit = 0
+            while self.i < len(s):
+                
+                if s[self.i] == '[':
+                    self.i += 1
+                    result += pendingdigit * solution(s)
+                    pendingdigit = 0
+                
+                elif s[self.i] == ']':
+                    self.i += 1
+                    return result
+                    
+                elif s[self.i].isdigit():
+                    pendingdigit = 10*pendingdigit + int(s[self.i])
+                    self.i += 1
+                    
+                else:
+                    result += s[self.i]
+                    self.i += 1
+                
+            return result
+        
+        return solution(s)
