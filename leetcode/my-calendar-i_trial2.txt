@@ -1,0 +1,35 @@
+class MyCalendar:
+
+    def __init__(self):
+        self.bookings = []
+        
+
+    def book(self, startTime: int, endTime: int) -> bool:
+        if not self.bookings:
+            self.bookings.append([startTime, endTime])
+            return True
+
+        low = 0
+        high = len(self.bookings)
+        while high > low:
+            mid  = (high + low) // 2 
+
+            if startTime < self.bookings[mid][0]:
+                high = mid
+            else:
+                low = mid + 1 
+            
+        if low > 0 and self.bookings[low - 1][1] > startTime:
+            return False
+
+        if low < len(self.bookings) and endTime > self.bookings[low][0]:
+            return False
+        
+        # the true case
+        self.bookings.insert(low, [startTime, endTime])
+        return True
+
+
+# Your MyCalendar object will be instantiated and called as such:
+# obj = MyCalendar()
+# param_1 = obj.book(startTime,endTime)
