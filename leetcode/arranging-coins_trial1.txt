@@ -1,0 +1,17 @@
+class Solution:
+    def arrangeCoins(self, n: int) -> int:
+        left, right = 1 , n
+        total = n
+        while left <= right:
+            mid = (left+right) // 2
+            coin_count = mid * (mid+1) // 2
+
+            if coin_count == n:
+                return mid
+            elif coin_count < n:
+                left = mid + 1
+            else:
+                right = mid - 1
+          
+        
+        return right
